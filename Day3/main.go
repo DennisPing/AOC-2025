@@ -11,12 +11,22 @@ import (
 func main() {
 	seqs := parseInput("input.txt")
 	part1(seqs)
+	part2(seqs)
 }
 
 func part1(seqs [][]int) {
 	sum := 0
 	for _, seq := range seqs {
 		val := findTwoLargest(seq)
+		sum += val
+	}
+	fmt.Println(sum)
+}
+
+func part2(seqs [][]int) {
+	sum := 0
+	for _, seq := range seqs {
+		val := findKLargest(seq, 12)
 		sum += val
 	}
 	fmt.Println(sum)
@@ -41,6 +51,33 @@ func findTwoLargest(seq []int) int {
 	}
 
 	concatStr := fmt.Sprintf("%d%d", seq[m], seq[n])
+	concatInt, _ := strconv.Atoi(concatStr)
+	return concatInt
+}
+
+func findKLargest(seq []int, k int) int {
+	idxs := make([]int, k) // Indexes of the max values
+	p := 0                 // Current pointer
+
+	for i := 0; i < k; i++ {
+		offset := k - i - 1
+		idxs[i] = p // Set the initial max to the current pointer
+
+		for j := p; j < len(seq)-offset; j++ {
+			if seq[j] > seq[idxs[i]] {
+				idxs[i] = j
+			}
+		}
+
+		// Update the pointer to the i+1 position
+		p = idxs[i] + 1
+	}
+
+	concatStr := ""
+	for _, idx := range idxs {
+		concatStr = fmt.Sprintf("%s%d", concatStr, seq[idx])
+	}
+
 	concatInt, _ := strconv.Atoi(concatStr)
 	return concatInt
 }
