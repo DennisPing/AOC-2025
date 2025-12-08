@@ -15,42 +15,19 @@ func main() {
 }
 
 func part1(grid [][]rune) {
-	total := 0
-	for r := 1; r < len(grid)-1; r++ {
-		for c := 1; c < len(grid[0])-1; c++ {
-			if grid[r][c] == '@' {
-				adj := numAdjacent(r, c, grid)
-				if adj < 4 {
-					total++
-				}
-			}
-		}
-	}
-	fmt.Println(total)
+	coords := findAllCoordinates(grid)
+	fmt.Println(len(coords))
 }
 
 func part2(grid [][]rune) {
 	total := 0
 
 	for {
-		subtotal := 0
-		coords := make([][2]int, 0)
-
-		for r := 1; r < len(grid)-1; r++ {
-			for c := 1; c < len(grid[0])-1; c++ {
-				if grid[r][c] == '@' {
-					adj := numAdjacent(r, c, grid)
-					if adj < 4 {
-						subtotal++
-						coords = append(coords, [2]int{r, c})
-					}
-				}
-			}
-		}
-		if subtotal == 0 {
+		coords := findAllCoordinates(grid)
+		if len(coords) == 0 {
 			break
 		}
-		total += subtotal
+		total += len(coords)
 
 		// Update the grid
 		for _, coord := range coords {
@@ -62,9 +39,24 @@ func part2(grid [][]rune) {
 	fmt.Println(total)
 }
 
+func findAllCoordinates(grid [][]rune) [][2]int {
+	coords := make([][2]int, 0)
+	for r := 1; r < len(grid)-1; r++ {
+		for c := 1; c < len(grid[0])-1; c++ {
+			if grid[r][c] == '@' {
+				adj := numAdjacent(r, c, grid)
+				if adj < 4 {
+					coords = append(coords, [2]int{r, c})
+				}
+			}
+		}
+	}
+
+	return coords
+}
+
 func numAdjacent(r, c int, grid [][]rune) int {
 	count := 0
-
 	coords := [][2]int{
 		{r - 1, c - 1},
 		{r - 1, c},
