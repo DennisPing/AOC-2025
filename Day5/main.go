@@ -34,11 +34,8 @@ func part1(idRanges [][2]int, ids []int) {
 
 func part2(idRanges [][2]int) {
 	total := 0
-	for _, ids := range idRanges {
-		fmt.Println(ids)
-		high := ids[1]
-		low := ids[0]
-		total += (high - low) + 1
+	for _, idRange := range idRanges {
+		total += idRange[1] - idRange[0] + 1
 	}
 	fmt.Println(total)
 }
