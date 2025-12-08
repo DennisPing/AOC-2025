@@ -12,23 +12,33 @@ import (
 
 func main() {
 	idRanges, ids := parseInput("input.txt")
-
-	part1(idRanges, ids)
-}
-
-func part1(idRanges [][2]int, ids []int) {
 	slices.SortFunc(idRanges, func(a, b [2]int) int {
 		return cmp.Compare(a[0], b[0])
 	})
 	idRanges = mergeRanges(idRanges)
 
+	part1(idRanges, ids)
+	part2(idRanges)
+}
+
+func part1(idRanges [][2]int, ids []int) {
 	total := 0
 	for _, id := range ids {
 		idx := findRange(idRanges, id)
 		if idx >= 0 && id <= idRanges[idx][1] {
-			//fmt.Println(id)
 			total++
 		}
+	}
+	fmt.Println(total)
+}
+
+func part2(idRanges [][2]int) {
+	total := 0
+	for _, ids := range idRanges {
+		fmt.Println(ids)
+		high := ids[1]
+		low := ids[0]
+		total += (high - low) + 1
 	}
 	fmt.Println(total)
 }
@@ -39,7 +49,7 @@ func mergeRanges(idRanges [][2]int) [][2]int {
 		first := idRanges[i]
 		second := idRanges[i+1]
 
-		if second[0] < first[1] {
+		if second[0] <= first[1] {
 			ceiling := max(first[1], second[1])
 			idRanges[i] = [2]int{first[0], ceiling}
 			idRanges = slices.Delete(idRanges, i+1, i+2)
