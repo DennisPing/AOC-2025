@@ -28,9 +28,8 @@ go.work.sum
 .env
 
 # Editor/IDE
- .idea/
- /.idea/
-# .vscode/
+.idea/
+.vscode/
 
 # Text input files
 *input.txt
