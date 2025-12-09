@@ -1,4 +1,4 @@
-package Utils
+package utils
 
 // GetElementFromReverse gets the N-th element from the end of a slice.
 // N is 1-based (1 for the last element, 2 for the second to last, etc.).
